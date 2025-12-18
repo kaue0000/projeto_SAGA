@@ -1,0 +1,58 @@
+version: '3'
+
+services:
+  # --- O BROKER (O CORREIO) ---
+  saga-rabbitmq:
+    image: rabbitmq:3-management # Versão com painel visual
+    container_name: saga-rabbitmq
+    ports:
+      - "5672:5672"   # Porta para o código (TCP)
+      - "15672:15672" # Porta para você acessar no navegador
+    volumes:
+      - rabbitmq_data:/var/lib/rabbitmq
+
+  # --- SEU BANCO DE DADOS (ORDER) ---
+  saga-postgres-order:
+    image: postgres:15
+    container_name: saga-postgres-order
+    ports:
+      - "5432:5432" # Porta Padrão
+    environment:
+      POSTGRES_USER: adonis
+      POSTGRES_PASSWORD: password
+      POSTGRES_DB: saga_orders
+    volumes:
+      - pg_order_data:/var/lib/postgresql/data
+
+  # --- BANCO DE DADOS DO JOÃO GABRIEL (PAYMENT) ---
+  saga-postgres-payment:
+    image: postgres:15
+    container_name: saga-postgres-payment
+    ports:
+      - "5433:5432" # ATENÇÃO: Mapeia a 5433 do seu PC para a 5432 do container
+    environment:
+      POSTGRES_USER: adonis
+      POSTGRES_PASSWORD: password
+      POSTGRES_DB: saga_payments
+    volumes:
+      - pg_payment_data:/var/lib/postgresql/data
+
+  # --- BANCO DE DADOS DO JOÃO PEDRO (NOTIFICATION) ---
+  saga-postgres-notification:
+    image: postgres:15
+    container_name: saga-postgres-notification
+    ports:
+      - "5434:5432" # ATENÇÃO: Mapeia a 5434 do seu PC para a 5432 do container
+    environment:
+      POSTGRES_USER: adonis
+      POSTGRES_PASSWORD: password
+      POSTGRES_DB: saga_notifications
+    volumes:
+      - pg_notification_data:/var/lib/postgresql/data
+
+# Volumes para persistir os dados se você desligar o PC
+volumes:
+  rabbitmq_data:
+  pg_order_data:
+  pg_payment_data:
+  pg_notification_data:
