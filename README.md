@@ -1,4 +1,4 @@
-#Projeto SAGA
+# Projeto SAGA
 Pequeno resumo do nosso projeto:
 Temos três microsservices: Order, Payment e Notification. Como focamos na comunicação, os serviços são bem enxutos, com pouca lógica por traz.
 
