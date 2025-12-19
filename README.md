@@ -45,21 +45,6 @@ Em um espaço de testes de requisições, como **Postman, Insomnia, ThunderClien
 Body (JSON):
 {
 	"amount": 100
-}1. Suba a infraestrutura com o comando **docker-compose up -d** (Irá subir os servidores dos três serviços, e o servidor do rabbitMQ).
-Precisamos inicializar cada um dos microsservices separadamente (cada um deles), dessa forma:
-2. Execute o comando **cp order_service**/**cp payment_service**/**cp notification_service**.
-3. Instale as dependências com **npm i**.
-4. Execute o comando **cp .env.example .env** para ter as configurações necessários para se conectar ao banco.
-5. Execute o comando **node ace generate:key**. 
-6. Prepare o banco de dados com comando **node ace migration:run**
-7. Inicie servidor do service com o **npm run dev**.
-Em um espaço de testes de requisições, como **Postman, Insomnia, ThunderClient, etc**, use o seguinte corpo de mensagem: 
-
-**ORDER**
-**URL: http://localhost:3333/orders**
-Body (JSON):
-{
-	"amount": 100
 }
 
  A partir desse corpo, os eventos serão processados e poderão seguir diferentes rumos considerando as possibilidades de falhas internas (de pagamento, principalmente).
