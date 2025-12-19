@@ -4,9 +4,9 @@ Temos três microsservices: Order, Payment e Notification. Como focamos na comun
 A força de comunicação escolhida foi **por eventos.**
 
 O fluxo é o seguinte: 
-* **Começando pelo Order Service (Producer):** O fluxo inicia com a criação de um pedido pelo cliente, onde é informado um valor **(amount)** e atribuído o status padrão `"PENDING"`. O pedido é armazenado no banco de dados local e, simultaneamente, o evento `order_created` é publicado na fila do **RabbitMQ**. Neste contexto, o serviço Order atua como o produtor da mensagem.
-* **Payment Service (Consumer & Producer):** Atuando como consumidor, o serviço de pagamento escuta a fila e processa o evento `order_created`. Após realizar a lógica de pagamento e registrar a transação em seu banco local, o serviço assume o papel de produtor e publica um novo evento: `payment_created`.
-* **Notification Service (Consumer):** Por fim, o serviço de notificação monitora os eventos de pagamento. Ao consumir o evento `payment_created`, armazena o conteúdo e o evento correspondente em seu banco de dados PostgreSQL.
+- **Começando pelo Order Service (Producer):** O fluxo inicia com a criação de um pedido pelo cliente, onde é informado um valor **(amount)** e atribuído o status padrão `"PENDING"`. O pedido é armazenado no banco de dados local e, simultaneamente, o evento `order_created` é publicado na fila do **RabbitMQ**. Neste contexto, o serviço Order atua como o produtor da mensagem.
+- **Payment Service (Consumer & Producer):** Atuando como consumidor, o serviço de pagamento escuta a fila e processa o evento `order_created`. Após realizar a lógica de pagamento e registrar a transação em seu banco local, o serviço assume o papel de produtor e publica um novo evento: `payment_created`.
+- **Notification Service (Consumer):** Por fim, o serviço de notificação monitora os eventos de pagamento. Ao consumir o evento `payment_created`, armazena o conteúdo e o evento correspondente em seu banco de dados PostgreSQL.
 
 FERRAMENTAS: 
 - **Framework:** AdonisJS
