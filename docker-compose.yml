@@ -50,7 +50,32 @@ services:
     volumes:
       - pg_notification_data:/var/lib/postgresql/data
 
-# Volumes para persistir os dados se você desligar o PC
+  # -----------------------------------------------------------
+  # AQUI ENTRA SÓ A SUA APLICAÇÃO (PAYMENT SERVICE)
+  # -----------------------------------------------------------
+  payment-service:
+    build: ./payment-service
+    container_name: saga-app-payment
+    restart: always
+    ports:
+      - "3333:3333"
+    environment:
+      - PORT=3333
+      - HOST=0.0.0.0
+      - NODE_ENV=development
+      - APP_KEY=sua_chave_do_env_aqui
+      - DB_CONNECTION=postgres
+      - DB_HOST=saga-postgres-payment
+      - DB_PORT=5432
+      - DB_USER=adonis
+      - DB_PASSWORD=password
+      - DB_DATABASE=saga_payments
+      # RabbitMQ
+      - RABBITMQ_HOST=saga-rabbitmq
+    depends_on:
+      - saga-postgres-payment
+      - saga-rabbitmq
+
 volumes:
   rabbitmq_data:
   pg_order_data:
