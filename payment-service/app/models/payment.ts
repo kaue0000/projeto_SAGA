@@ -5,10 +5,10 @@ export default class Payment extends BaseModel {
   @column({ isPrimary: true })
   declare id: number
 
-  @column()
+  @column({ columnName: 'order_id' })
   declare orderId: number
 
-  @column()
+  @column({ columnName: 'user_id' })
   declare userId: number
 
   @column()
@@ -21,12 +21,12 @@ export default class Payment extends BaseModel {
   declare method: string
 
   // O transactionId pode ser nulo, então usamos '| null'
-  @column()
+  @column({ columnName: 'transaction_id' })
   declare transactionId: string | null
 
-  @column.dateTime({ autoCreate: true })
+  @column.dateTime({ autoCreate: true, columnName: 'created_at' })
   declare createdAt: DateTime
 
-  @column.dateTime({ autoCreate: true, autoUpdate: true })
+  @column.dateTime({ autoCreate: true, autoUpdate: true, columnName: 'updated_at' })
   declare updatedAt: DateTime
 }
